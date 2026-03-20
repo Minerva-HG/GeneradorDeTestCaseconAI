@@ -27,6 +27,13 @@ import pandas as pd
 # Extensiones admitidas y tipo de contenido
 ALLOWED_EXTENSIONS = ("pdf", "txt", "csv", "py", "groovy", "robot", "xml", "docx")
 
+#--titulo
+st.title("Generador de TC y Scripts con AI")
+
+
+# Botón de Recargar
+if st.button("Recargar"):
+    st.rerun()
 
 def _get_extension(filename):
     return (filename or "").lower().split(".")[-1] if "." in (filename or "") else ""
@@ -279,16 +286,7 @@ def _test_cases_to_xlsx_buffer(df: pd.DataFrame) -> BytesIO:
 # ===== STREAMLIT UI =====
 st.set_page_config(page_title="Generador de TestCases", page_icon="🤖")
 
-# Título y botón Refrescar/Limpiar (alineado a la derecha, junto a la zona de la barra superior)
-col_title, col_clear = st.columns([97, 14])
-with col_title:
-    st.title("🤖 Generador de TestCases con IA")
-with col_clear:
-    if st.button("🔄 Limpiar", help="Borra los archivos generados por la IA y recarga la app"):
-        for key in ("casos_prueba_xlsx", "katalon_groovy"):
-            if key in st.session_state:
-                del st.session_state[key]
-        st.rerun()
+
 
 st.caption("PDF, TXT, CSV, PY, GROOVY, ROBOT, XML, DOCX — IA genera casos de prueba y script Katalon")
 
@@ -392,3 +390,11 @@ if uploaded_file:
                         st.error(_friendly_ai_error(e))
 else:
     st.info("Sube un documento (PDF, TXT, CSV, PY, GROOVY, ROBOT, XML o DOCX) para comenzar")
+
+
+#----BOTON DE XPATHOR---
+#st.title("Xpathor")
+
+if st.button("XPATHOR"):
+     exec(open("XpathGenerator.py").read())
+    

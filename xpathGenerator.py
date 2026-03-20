@@ -1,4 +1,6 @@
+#Minerva Hernandez Godinez
 # -*- coding: utf-8 -*-
+
 import os
 import re
 import requests
@@ -19,7 +21,7 @@ st.title("XPath Optimizer con Cohere")
 
 # --- FUNCIONES DE OPTIMIZACIÓN LOCAL ---
 def logic_optimizer(xpath: str) -> str:
-    """Simplificación básica sin IA."""
+    """Simplificación basica sin IA."""
     simplified = re.sub(r"^/html/body/", "//", xpath)
     simplified = re.sub(r"/div\[\d+\]/div\[\d+\]", "//div", simplified)
     return simplified
