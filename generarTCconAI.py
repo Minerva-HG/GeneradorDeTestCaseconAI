@@ -14,18 +14,29 @@ Configuración (variable de entorno o .streamlit/secrets.toml):
 """
 
 # ===== IMPORTS =====
+"""Asegura que la salida sea UTF-8 para evitar errores de codificación en Streamlit."""
+import sys
+import io
+
+if sys.stdout.encoding != 'utf-8':
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='replace')
+if sys.stderr.encoding != 'utf-8':
+    sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8', errors='replace')
+
 import os
 import re
 from io import BytesIO
-
 import streamlit as st
 import pdfplumber
 from PyPDF2 import PdfReader
 from docx import Document
 import pandas as pd
+#import xpathGenerator
+import importlib
 
 # Extensiones admitidas y tipo de contenido
 ALLOWED_EXTENSIONS = ("pdf", "txt", "csv", "py", "groovy", "robot", "xml", "docx")
+
 
 #--titulo
 st.title("Generador de TC y Scripts con AI")
@@ -299,7 +310,14 @@ uploaded_file = st.file_uploader(
 if uploaded_file:
     file_bytes = uploaded_file.read()
     full_text, pages, metadata, is_pdf = load_document(file_bytes, uploaded_file.name)
-    _base_name = re.sub(r'[<>:"/\\|?*]', "_", os.path.splitext(uploaded_file.name or "documento")[0].strip()) or "documento"
+    import unicodedata
+    def _sanitize_filename(name: str) -> str:
+        # Normaliza y convierte caracteres con tilde a su equivalente ASCII (ej: é -> e, ñ -> n)
+        nfkd = unicodedata.normalize("NFKD", name)
+        ascii_name = nfkd.encode("ascii", errors="ignore").decode("ascii")
+        # Elimina caracteres inválidos en nombres de archivo
+        return re.sub(r'[<>:"/\\|?*]', "_", ascii_name).strip() or "documento"
+    _base_name = _sanitize_filename(os.path.splitext(uploaded_file.name or "documento")[0].strip())
 
     st.subheader("Información del documento")
     st.json(metadata)
@@ -395,6 +413,5 @@ else:
 #----BOTON DE XPATHOR---
 #st.title("Xpathor")
 
-if st.button("XPATHOR"):
-     exec(open("XpathGenerator.py").read())
+#st.markdown("[Abrir XpathGenerator](http://localhost:8502)")
     
