@@ -1,0 +1,6 @@
+[server]
+# Forzar UTF-8 en todo el proceso de Streamlit (necesario en Windows con cp1252)
+enableCORS = false
+
+[browser]
+gatherUsageStats = false

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Generador de TC y Scripts con AI</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Generador de TC y Scripts con AI</h1>
+      <p class="subtitle">PDF, TXT, CSV, PY, GROOVY, ROBOT, XML, DOCX &mdash; La IA genera casos de prueba y scripts Katalon</p>
+    </header>
+
+    <!-- UPLOAD -->
+    <section class="card" id="section-upload">
+      <label class="upload-area" id="upload-area">
+        <input type="file" id="file-input" accept=".pdf,.txt,.csv,.py,.groovy,.robot,.xml,.docx" hidden />
+        <div class="upload-icon">📄</div>
+        <p>Arrastra un archivo aquí o <span class="link">haz clic para seleccionar</span></p>
+        <small>PDF, TXT, CSV, PY, GROOVY, ROBOT, XML, DOCX &mdash; máx. 50 MB</small>
+      </label>
+    </section>
+
+    <!-- SPINNER -->
+    <div class="spinner-wrap hidden" id="spinner">
+      <div class="spinner"></div>
+      <span id="spinner-msg">Procesando…</span>
+    </div>
+
+    <!-- ERROR GLOBAL -->
+    <div class="alert alert-error hidden" id="global-error"></div>
+
+    <!-- METADATA -->
+    <section class="card hidden" id="section-meta">
+      <h2>Información del documento</h2>
+      <div class="meta-grid" id="meta-grid"></div>
+      <p class="meta-stats" id="meta-stats"></p>
+    </section>
+
+    <!-- CONVERSIÓN (solo PDF) -->
+    <section class="card hidden" id="section-convert">
+      <h2>Descargar archivo convertido</h2>
+      <div class="btn-row">
+        <button class="btn btn-secondary" id="btn-dl-txt">⬇ TXT</button>
+        <button class="btn btn-secondary" id="btn-dl-docx">⬇ DOCX</button>
+        <button class="btn btn-secondary" id="btn-dl-xlsx-text">⬇ XLSX</button>
+      </div>
+    </section>
+
+    <!-- IA -->
+    <section class="card hidden" id="section-ai">
+      <h2>🧠 IA</h2>
+      <div class="ai-cols">
+
+        <!-- Casos de prueba -->
+        <div class="ai-col">
+          <button class="btn btn-primary" id="btn-gen-cases">📋 Generar casos de prueba (XLSX)</button>
+          <div class="hidden" id="cases-result">
+            <button class="btn btn-success" id="btn-dl-cases">⬇ Descargar casos de prueba (.xlsx)</button>
+            <details class="preview-box">
+              <summary>Vista previa</summary>
+              <div class="table-wrap" id="cases-preview"></div>
+            </details>
+          </div>
+        </div>
+
+        <!-- Katalon -->
+        <div class="ai-col">
+          <button class="btn btn-primary" id="btn-gen-katalon">🔧 Generar script Katalon (.groovy)</button>
+          <div class="hidden" id="katalon-result">
+            <button class="btn btn-success" id="btn-dl-katalon">⬇ Descargar script Katalon (.groovy)</button>
+            <details class="preview-box">
+              <summary>Vista previa del código</summary>
+              <pre id="katalon-preview" class="code-block"></pre>
+            </details>
+          </div>
+        </div>
+      </div>
+
+      <hr />
+
+      <!-- Preguntas -->
+      <div class="question-section">
+        <h3>Preguntas sobre el documento</h3>
+        <div class="input-row">
+          <input type="text" id="question-input" placeholder="Escribe tu pregunta sobre el documento…" />
+          <button class="btn btn-primary" id="btn-ask">🔍 Responder</button>
+        </div>
+        <div class="hidden" id="answer-box">
+          <h4>Respuesta</h4>
+          <p id="answer-text"></p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
